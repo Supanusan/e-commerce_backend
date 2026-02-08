@@ -6,6 +6,7 @@ profile, password
 
 /api/products
 list, details, search
+
 admin add/update/delete
 
 /api/cart
