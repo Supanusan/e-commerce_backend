@@ -1,5 +1,5 @@
 import express from "express";
-import Product from "../config/shema/product";
+import Product from "../config/shema/product.js";
 const router = express.Router();
 
 //list out all and get products from the search

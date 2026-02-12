@@ -4,6 +4,9 @@ import { configDotenv } from "dotenv";
 import connectDB from "./config/mongoose.js";
 import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.js";
+import productsRoute from "./routes/product.js";
+import adminRoute from "./routes/admin.js";
+import { adminAuth } from "./middleware/auth.js";
 const app = express();
 configDotenv();
 
@@ -22,6 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 
 //routes
 app.use("/api/auth", authRoute);
+app.use("/api/products", productsRoute);
+app.use("/api/admin", adminAuth, adminRoute);
 
 connectDB();
 app.listen(5000, () => {

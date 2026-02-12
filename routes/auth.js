@@ -2,7 +2,7 @@ import express from "express";
 import User from "../config/shema/user.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import userAuth from "../middleware/auth.js";
+import { userAuth } from "../middleware/auth.js";
 const router = express.Router();
 
 //login

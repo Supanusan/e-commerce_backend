@@ -1,13 +1,13 @@
-/api/auth
+/api/auth (Done)
 register, login, logout, me
 
 /api/users
 profile, password
 
-/api/products
+/api/products (Done)
 list, details, search
 
-admin add/update/delete
+admin add/update/delete (Done)
 
 /api/cart
 add, update, remove, clear
