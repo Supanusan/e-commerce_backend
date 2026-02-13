@@ -9,7 +9,7 @@ list, details, search
 
 admin add/update/delete (Done)
 
-/api/cart
+/api/cart (done at 13/02/206 00:00)
 add, update, remove, clear
 
 /api/orders

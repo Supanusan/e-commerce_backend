@@ -6,7 +6,8 @@ import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.js";
 import productsRoute from "./routes/product.js";
 import adminRoute from "./routes/admin.js";
-import { adminAuth } from "./middleware/auth.js";
+import cartRoute from "./routes/cart.js";
+import { adminAuth, userAuth } from "./middleware/auth.js";
 const app = express();
 configDotenv();
 
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoute);
 app.use("/api/products", productsRoute);
 app.use("/api/admin", adminAuth, adminRoute);
+app.use("/api/cart", userAuth, cartRoute);
 
 connectDB();
 app.listen(5000, () => {
