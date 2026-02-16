@@ -1,6 +1,7 @@
 import express from "express";
 import Product from "../config/shema/product.js";
 import upload from "../config/multer.js";
+import Order from "../config/shema/order.js";
 const router = express.Router();
 
 //add product
@@ -73,6 +74,53 @@ router.delete("/delete/:id", async (req, res) => {
     return res
       .status(200)
       .json({ success: true, message: "product deleted successfull !" });
+  } catch (error) {
+    console.log(error.message);
+    return res
+      .status(500)
+      .json({ success: false, message: "something went wrong !" });
+  }
+});
+
+//all orders
+router.get("/all-orders", async (req, res) => {
+  try {
+    const all_orders = await Order.find()
+      .populate({ path: "user", select: "name -_id" })
+      .populate({ path: "products.product", select: "name -_id" })
+      .sort({ createdAt: -1 });
+    if (!all_orders || all_orders.length === 0) {
+      return res.status(404).json({ success: false, message: "no orders !" });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "successfully fetched !",
+      data: all_orders,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res
+      .status(500)
+      .json({ success: false, message: "something went wrong !" });
+  }
+});
+
+//update order status
+router.put("/order/update/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const order = await Order.findByIdAndUpdate(id, {
+      status,
+    });
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "something went wrong !" });
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "order updated successfull !" });
   } catch (error) {
     console.log(error.message);
     return res
