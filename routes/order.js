@@ -163,9 +163,15 @@ router.post("/create", userAuth, async (req, res) => {
 router.get("/my-orders", userAuth, async (req, res) => {
   try {
     const id = req.user.id;
-    const myOrders = await Order.find({
-      user: id,
-    }).select("-user");
+    const myOrders = await Order.find({ user: id })
+      .select("-user ")
+      .populate({
+        path: "products.product",
+        select: "name -_id ", // only required fields
+      })
+      .sort({ createdAt: -1 }) // latest orders first
+      .lean();
+
     if (myOrders.length === 0 || !myOrders) {
       return res.status(404).json({
         success: false,
