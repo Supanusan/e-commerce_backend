@@ -15,7 +15,7 @@ add, update, remove, clear
 /api/orders (done)
 create, my orders, order details
 
-/api/admin
+/api/admin(done)
 all orders, update status
 
 /api/payments (done)

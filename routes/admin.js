@@ -4,6 +4,29 @@ import upload from "../config/multer.js";
 import Order from "../config/shema/order.js";
 const router = express.Router();
 
+//all product
+router.get("/all-products", async (req, res) => {
+  try {
+    const products = await Product.find();
+    if (products.length === 0 || !products) {
+      return res.status(404).json({
+        message: "no products !",
+        success: false,
+      });
+    }
+    return res.status(200).json({
+      message: "successfully fetched !",
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res
+      .status(500)
+      .json({ success: false, message: "something went wrong !" });
+  }
+});
+
 //add product
 router.post("/add", upload.array("image"), async (req, res) => {
   try {
@@ -83,7 +106,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 //all orders
-router.get("/all-orders", async (req, res) => {
+router.get("/orders/all-orders", async (req, res) => {
   try {
     const all_orders = await Order.find()
       .populate({ path: "user", select: "name -_id" })
