@@ -56,8 +56,8 @@ router.post("/add", async (req, res) => {
         success: true,
       });
     }
-    cartUser.products[cart_index].count = count;
-    cartUser.products[cart_index].price = count * productPrice.price;
+    cartUser.products[cart_index].count += count;
+    cartUser.products[cart_index].price += count * productPrice.price;
 
     await cartUser.save();
     return res.status(200).json({
@@ -167,4 +167,31 @@ router.delete("/clear", async (req, res) => {
       .json({ success: false, message: "somthing went wrong !" });
   }
 });
+
+// get cart
+router.get("/", async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ user: req.user.id }).populate(
+      "products.product",
+    );
+
+    if (!cart) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: cart,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+});
+
 export default router;

@@ -27,6 +27,13 @@ router.post("/login", async (req, res) => {
         { expiresIn: "7d" },
       );
       res.cookie("token", jsonwebtoken);
+      if (user.role == "admin") {
+        return res.status(200).json({
+          success: true,
+          message: "login successfull !",
+          isAdmin: true,
+        });
+      }
       return res
         .status(200)
         .json({ success: true, message: "login successfull !" });

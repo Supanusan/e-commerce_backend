@@ -7,6 +7,8 @@ import authRoute from "./routes/auth.js";
 import productsRoute from "./routes/product.js";
 import adminRoute from "./routes/admin.js";
 import cartRoute from "./routes/cart.js";
+import orderRoute from "./routes/order.js";
+import paymentRoute from "./routes/payment.js";
 import { adminAuth, userAuth } from "./middleware/auth.js";
 const app = express();
 configDotenv();
@@ -14,9 +16,7 @@ configDotenv();
 //middlewares
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: "http://localhost:3000", // your frontend URL
     credentials: true,
   }),
 );
@@ -29,6 +29,8 @@ app.use("/api/auth", authRoute);
 app.use("/api/products", productsRoute);
 app.use("/api/admin", adminAuth, adminRoute);
 app.use("/api/cart", userAuth, cartRoute);
+app.use("/api/orders", userAuth, orderRoute);
+app.use("/api/payment", paymentRoute);
 
 connectDB();
 app.listen(5000, () => {
