@@ -160,4 +160,31 @@ router.post("/create", userAuth, async (req, res) => {
   }
 });
 
+router.get("/my-orders", userAuth, async (req, res) => {
+  try {
+    const id = req.user.id;
+    const myOrders = await Order.find({
+      user: id,
+    }).select("-user");
+    if (myOrders.length === 0 || !myOrders) {
+      return res.status(404).json({
+        success: false,
+        message: "No orders found !",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "successfully fetched !",
+      data: myOrders,
+    });
+  } catch (error) {
+    console.error("Order Creation Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+});
+
 export default router;
